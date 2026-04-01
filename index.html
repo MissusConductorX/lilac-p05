@@ -192,35 +192,100 @@ function triggerDisco(){
         font-family: monospace;
         font-size: 140px;
         letter-spacing: 15px;
-        transform: scale(0.8);
-        opacity: 0;
-        transition: all 0.3s ease;
     `;
     screen.textContent = "DONT";
+
     document.body.appendChild(screen);
 
-    // flicker before reveal
-    let flickers = 0;
-    const flicker = setInterval(() => {
-        screen.style.opacity = (flickers % 2 === 0) ? "0" : "1";
-        flickers++;
-        if(flickers > 5){
-            clearInterval(flicker);
-            screen.style.opacity = "1";
-            screen.style.transform = "scale(1)";
-        }
-    }, 80);
-
-    // attempt close after delay
+    // Close quickly after 0.45 seconds
     setTimeout(() => {
         window.open('', '_self');
         window.close();
 
-        // fallback if browser blocks it
+        // fallback for browsers that block close
         setTimeout(() => {
             document.body.innerHTML = "";
-        }, 300);
-    }, 1200);
+        }, 50);
+    }, 450);
+}
+
+// King in Yellow event
+function triggerYellow(){
+    input.style.display = "none";
+    document.body.innerHTML = "";
+
+    // Create the KING overlay
+    const kingOverlay = document.createElement("div");
+    kingOverlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: black;
+        overflow: hidden;
+        z-index: 9999;
+        font-family: monospace;
+        color: yellow;
+        font-weight: bold;
+    `;
+    document.body.appendChild(kingOverlay);
+
+    // Fill the screen with "KING" at random positions
+    const repeatCount = 120; // adjust density
+    for(let i = 0; i < repeatCount; i++){
+        const span = document.createElement("span");
+        span.textContent = "KING";
+        span.style.position = "absolute";
+        span.style.top = Math.random() * 100 + "vh";
+        span.style.left = Math.random() * 100 + "vw";
+        span.style.fontSize = (20 + Math.random()*80) + "px"; // random size
+        span.style.opacity = Math.random() * 0.8 + 0.2;
+        kingOverlay.appendChild(span);
+    }
+
+    // After 1 second, transition to overflow BSOD
+    setTimeout(() => {
+        document.body.innerHTML = "";
+        const bsod = document.createElement("div");
+        bsod.style.cssText = `
+            background:#0000AA;
+            color:#FFFFFF;
+            height:100vh;
+            width:100vw;
+            font-family: monospace;
+            display:flex;
+            justify-content:flex-start;
+            align-items:flex-start;
+            padding:40px 60px;
+            box-sizing:border-box;
+            line-height:1.6;
+            overflow:hidden;
+            white-space: pre;
+        `;
+        document.body.appendChild(bsod);
+
+        const bsodText = `
+A fatal exception has occurred within LILAC_OS.
+X-X
+
+SYSTEM HALTED DUE TO MEMORY OVERFLOW!
+
+ERROR CODE: OVERFLOW-EXCEEDS-MEMORY
+
+The system encountered a massive data overflow.
+
+Recommended Actions:
+- Do NOT attempt to re-enter restricted directories
+- Report this incident to your system administrator
+- Await further instruction from Lilac Institute
+
+System halted.
+Press REFRESH to restart system.
+`;
+
+        typeText(bsod, bsodText, 5);
+    }, 1000);
 }
 
 // Input handling
@@ -277,6 +342,10 @@ ERROR: COULD NOT VERIFY LOGIN_EVENT:KEY
 
             case "DISCO":
                 triggerDisco();
+                break;
+
+            case "YELLOW":
+                triggerYellow();
                 break;
 
             default:
