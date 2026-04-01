@@ -93,10 +93,14 @@ function typeText(element, text, speed, callback){
 
 // Boot sequence
 typeText(bootText,
-`LILAC INSTITUTE SYSTEM
+`LILAC INSTITUTE DIRECTORY CONSOLE
 Initializing...
-Loading modules...
+Loading modules... 1/2
+Loading modules... 2/2
 Establishing secure connection...
+Connecting System Database...
+Connection Secure!
+Database Secured!
 System Ready.
 `, 25, () => {
     input.style.display = "block";
@@ -193,19 +197,19 @@ ACCESS GRANTED
                 typeText(loadingText,
 `ACCESSING DIRECTORY...
 VERIFYING...
-ERROR: INVALID CLEARANCE
+ERROR: INSUFFICIENT CLEARANCE
 `, 30);
                 break;
             case "DIRECTORY":
                 typeText(loadingText,
-`ACCESSING DIRECTORY...
-NOTICE: YOU ARE ALREADY IN Main/Directory
+`ACCESSING ROOT DIRECTORY...
+NOTICE: YOU ARE ALREADY IN ROOT DIRECTORY.
 `, 30);
                 break;
             case "SYSTEM":
                 typeText(loadingText,
 `ACCESSING SYSTEM...
-ERROR: INVALID CLEARANCE
+ERROR: NO ADMINISTRATOR KEY DETECTED!
 `, 30);
                 break;
             case "CINCLAIR":
@@ -213,6 +217,9 @@ ERROR: INVALID CLEARANCE
 `ACCESSING USER PROFILE...
 OVERRIDE ATTEMPT DETECTED...
 SYSTEM VIOLATION...
+...
+...
+ERROR: COULD NOT VERIFY LOGIN_EVENT:KEY
 `, 35, () => {
                     setTimeout(triggerBSOD, 1200);
                 });
